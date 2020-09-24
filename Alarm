@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,16 @@ public class Alarm : MonoBehaviour
 {
     [SerializeField] private UnityEvent _theDorIsOpen;
     [SerializeField] private UnityEvent _theDorIsClose;
-
+    [SerializeField] private AudioSource _audioSourse;
+ 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<GangsterMover>(out GangsterMover gangsterMover))
         {
             _theDorIsOpen?.Invoke();
+           
+            StartCoroutine(Inside());
+            StopCoroutine(Outside());
         }
     }
 
@@ -21,6 +26,30 @@ public class Alarm : MonoBehaviour
         if (collision.TryGetComponent<GangsterMover>(out GangsterMover gangsterMover))
         {
             _theDorIsClose?.Invoke();
+            StopCoroutine(Inside());
+            StartCoroutine(Outside());
+        }
+    }
+
+    private IEnumerator Inside()
+    {
+        var volume = _audioSourse.volume;
+        for (float i = 0.01f; i < 1; i+=0.0010f)
+        {
+            volume = i;
+            _audioSourse.volume = volume;
+            yield return null;
+        }
+    }
+
+    private IEnumerator Outside()
+    {
+        var volume = _audioSourse.volume;
+        for (float i = 1; i > 0.001f; i-= 0.001f)
+        {
+            volume = i;
+            _audioSourse.volume = volume;
+            yield return null;
         }
     }
 }
