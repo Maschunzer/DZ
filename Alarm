@@ -34,7 +34,7 @@ public class Alarm : MonoBehaviour
     private IEnumerator Inside()
     {
         var volume = _audioSourse.volume;
-        for (float i = 0.01f; i < 1; i+=0.0010f)
+        for (float i = 0; i < 1; i+=0.0010f)
         {
             volume = i;
             _audioSourse.volume = volume;
@@ -45,7 +45,7 @@ public class Alarm : MonoBehaviour
     private IEnumerator Outside()
     {
         var volume = _audioSourse.volume;
-        for (float i = 1; i > 0.001f; i-= 0.001f)
+        for (float i = 1; i > 0; i-= 0.001f)
         {
             volume = i;
             _audioSourse.volume = volume;
