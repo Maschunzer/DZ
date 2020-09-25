@@ -7,18 +7,22 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject _enemy;
     [SerializeField] private float _timeBetweenSpawn;
     [SerializeField] private Transform[] _spawnPoints;
-
     private float _elapsedTime;
 
     private void Update()
     {
         _elapsedTime += Time.deltaTime;
+        StartCoroutine(Spawn());
+    }
 
+    IEnumerator Spawn()
+    {
         if (_elapsedTime >= _timeBetweenSpawn)
         {
-            _elapsedTime = 0;
-            int spawnPointNumber =  Random.Range(0,_spawnPoints.Length);
+            int spawnPointNumber = Random.Range(0, _spawnPoints.Length);
             Instantiate(_enemy, _spawnPoints[spawnPointNumber]);
+            _elapsedTime = 0;
         }
+        yield return null;
     }
 }
