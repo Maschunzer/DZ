@@ -12,17 +12,18 @@ public class Spawner : MonoBehaviour
     private void Update()
     {
         _elapsedTime += Time.deltaTime;
-        StartCoroutine(Spawn());
+
+        if (_elapsedTime >= _timeBetweenSpawn)
+        {
+            StartCoroutine(Spawn());
+        }
     }
 
     IEnumerator Spawn()
     {
-        if (_elapsedTime >= _timeBetweenSpawn)
-        {
-            int spawnPointNumber = Random.Range(0, _spawnPoints.Length);
-            Instantiate(_enemy, _spawnPoints[spawnPointNumber]);
-            _elapsedTime = 0;
-        }
+        int spawnPointNumber = Random.Range(0, _spawnPoints.Length);
+        Instantiate(_enemy, _spawnPoints[spawnPointNumber]);
+        _elapsedTime = 0;
         yield return null;
     }
 }
